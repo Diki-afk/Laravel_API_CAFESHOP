@@ -1,0 +1,33 @@
+1.Pastikan sudah menginstalasi web server (Apache / Nginx), PHP, dan MySQL
+2. jalankan web server dan databasenya
+3.buat database. lalu import tugasakhir.sql
+4. apabila memakai xamp pindahkan direktori laravel ini kedalam htdocs, apabila memakai docker pindahkan ke workspace
+4.sesuaikan konfigurasi database pada file .env pada direktori projek laravel TugasAkhir. apabila tidak ada .env copy file .env.example ke .env lalu sesuaikan.
+5. apabila terjadi error SQLSTATE[HY000] [2002] php_network_getaddresses: getaddrinfo failed: No such host is known. cek pada file .env apakah sudah sesuai apabila menggunakan xamp pastikan DBHOSTnya yaitu 127.0.0.1 atau localhost, 
+   apabila menggunakan docker pastikan DBHOSTnya adalah mysql. lalu cek kembali nama table pastika sesuai dengan database. apabila masih error coba jalankan perintah php artisan clear:cache dan php artisan key:generate.
+6. silahkan jalankan perintah php artisan config:cache dan php artisan cache:clear apabila terjadi error exception file_put_contents(.com/var/www/TugasAkhir/storage/framework/views
+7. disini pada vue js saya memakai domain tugasakhir.test jadi pastikan pada laravel mempunyai domain tugasakhir.test agar data bisa dimuat
+  pada xamp silahkan buka httpd_vhosts pada C:\xampp\apache\conf\extra\httpd-vhosts.conf pastikan konfigurasinya seperti ini :
+
+<VirtualHost *:80>
+    DocumentRoot C:\xampp\htdocs\TugasAkhir\public
+    ServerName tugasakhir.test
+    <Directory "C:\xampp\htdocs\TugasAkhir\public">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+7. apabila foto profile pada navigasi dan pada menu profile tidak muncul hapus file storage yang ada pada direktori public. setelah itu jalankan php artisan link:storage pada cmd atau terminal.
+
+lalu pada C:\WINDOWS\system32\drivers\etc\host tambahkan konfigurasi : 127.0.0.1 tugasakhir.test ,apabila dilinux atau macOs rubah pada /etc/hosts. 
+simpan lalu coba pada browser untuk mengakses coba akses dengan alamat http://tugasakhir.test/v1/categories 
+apabila masih error copykan file .httaccess pada direktori public pada laravel ke root direktori laravel atau luar dari direktori laravel.
+agar bisa langsung terdeteksi ubah nama  server.php menjadi index.php pada direktori laravel.
+pada laravel saya belum membuat management web service(manajemen backend) jadi laravel hanya saya gunakan sebagai web service api saja.
+domain2 api dapat dilihat pada direktori Routes/api.php disitu saya menggunakan prefix v1, 
+jadi apabila ingin mengakses route api harus diawali dengan v1 contoh tugasakhir.test/v1/categories
+
+saya disini menggunakan docker(laradock)untuk masuk ke dalam direktori laradock terlebih dahulu jalankan 
+perintah docker-compose up -d nginx mysql redis phpmyadmin workspace. untuk masuk kedalam worksapce tinggal 
+jalankan perintah docker-compose exec --user=laradock workspace bash. pastikan direktori laravel berada pada workspace.
